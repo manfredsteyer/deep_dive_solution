@@ -1,0 +1,58 @@
+<!-- src/app/flight-search/flight-search.component.html -->
+
+<h1>Flight Search</h1>
+
+<!-- Ergänzen Sie den form-Tag und weisen  -->
+<!-- Sie ihm eine Template-Variable zu: -->
+<form #f="ngForm">
+    <div class="form-group">
+        <label>From:</label>
+        <input [(ngModel)]="from" [ngModelOptions]="{ updateOn: 'change'}" name="from" required minlength="3" appCity class="form-control">
+    </div>
+
+    <div class="error" *ngIf="!f?.controls?.from?.valid">
+        Es liegen Validierungsfehler für diese Eingabe vor.
+    </div>
+    <div class="error" *ngIf="f?.controls?.from?.hasError('required')">
+        Dieses Feld ist ein Pflichtfeld.
+    </div>
+    <div class="error" *ngIf="f?.controls?.from?.hasError('minlength')">
+        Erfassen Sie bitte min. {{ f?.controls?.from?.errors?.minlength?.requiredLength }} Zeichen.
+    </div>
+
+    <div class="error" *ngIf="f?.controls?.from?.hasError('appCity')">
+        Die Stadt wird nicht angeflogen.
+    </div>
+
+    <div class="error" *ngIf="f?.controls?.from?.errors">
+        Internes Errors-Objekt: {{ f?.controls?.from?.errors | json}}
+    </div>
+
+    <div class="form-group">
+        <label>To:</label>
+        <input [(ngModel)]="to" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="delayFilter" type="checkbox" id="delayFilter">
+        &nbsp;
+        <label for="delayFilter">Delayed</label>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-default" (click)="search()" [disabled]="f?.valid">
+            Search
+        </button>
+    </div>
+</form>
+
+
+<div class="row">
+    <div *ngFor="let f of flights | statusFilter:delayFilter" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+        <flight-card [item]="f" [(selected)]="basket[f.id]">
+        </flight-card>
+    </div>
+</div>
+
+<b>Basket</b>
+<pre>{{ basket | json }}</pre>
