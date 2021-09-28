@@ -12,13 +12,15 @@ import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
    imports: [
       RouterModule.forRoot(APP_ROUTES),
       HttpClientModule,
       BrowserModule,
-      FlightBookingModule
+      FlightBookingModule,
+      SharedModule
    ],
    declarations: [
       AppComponent,
