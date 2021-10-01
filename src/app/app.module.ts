@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 import { SharedModule } from './shared/shared.module';
 import { DummyComponent } from './dummy/dummy.component';
+import { BASE_URL } from './app.tokens';
 
 @NgModule({
    imports: [
@@ -32,7 +33,12 @@ import { DummyComponent } from './dummy/dummy.component';
       NotFoundComponent,
       DummyComponent,
    ],
-   providers: [],
+   providers: [
+      {
+         provide: BASE_URL,
+         useValue: 'http://www.angular.at/api/'
+      }
+   ],
    bootstrap: [
       AppComponent
    ]

@@ -1,13 +1,16 @@
-// src/app/flight-search/flight-search.component.ts
-
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { Flight } from '../flight';
-import { FlightService } from '../flight.service';
+import { FLIGHT_SERVICES } from '../flight-booking.tokens';
+import { DummyFlightService, FlightService } from '../flight.service';
 
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
-  styleUrls: ['./flight-search.component.scss']
+  styleUrls: ['./flight-search.component.scss'],
+  providers: [
+    { provide: FlightService, useClass: DummyFlightService}
+  ]
 })
 export class FlightSearchComponent implements OnInit {
 
@@ -22,7 +25,7 @@ export class FlightSearchComponent implements OnInit {
     5: true
   };
 
-  constructor(private flightService: FlightService) {
+  constructor(@Inject(FLIGHT_SERVICES) private flightServices: FlightService[]) {
   }
 
   ngOnInit(): void {
@@ -30,8 +33,13 @@ export class FlightSearchComponent implements OnInit {
 
   search(): void {
 
-    this.flightService.find(this.from, this.to).subscribe({
-      next: (flights) => {
+    combineLatest(
+      this.flightServices.map(fs => fs.find(this.from, this.to))
+    ).subscribe({
+      next: (flightsResults) => {
+
+        const flights = flightsResults.flat();
+        console.debug('flights', flights);
         this.flights = flights;
       },
       error: (err) => {
