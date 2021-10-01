@@ -1,0 +1,9 @@
+<table class="table">
+ 
+    <tr *ngFor="let row of data">
+        <td *ngFor="let f of fieldList">
+            <div *ngTemplateOutlet="f.template; context: { $implicit: row[f.property]  }"></div>
+        </td>
+    </tr>
+
+</table>

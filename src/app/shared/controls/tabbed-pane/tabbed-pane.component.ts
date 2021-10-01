@@ -1,4 +1,5 @@
-import { AfterContentInit, Component, ContentChildren, OnInit, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ComponentFactoryResolver, ContentChildren, ElementRef, OnInit, QueryList, ViewContainerRef } from '@angular/core';
+import { DummyComponent } from 'src/app/dummy/dummy.component';
 import { TabComponent } from '../tab/tab.component';
 
 @Component({
@@ -11,12 +12,22 @@ export class TabbedPaneComponent implements OnInit, AfterContentInit {
   @ContentChildren(TabComponent)
   tabList!: QueryList<TabComponent>;
 
+  @ContentChildren(TabComponent, { read: ViewContainerRef })
+  viewContainerRefs!: QueryList<ViewContainerRef>;
+
+  @ContentChildren(TabComponent, { read: ElementRef })
+  elementRefs!: QueryList<ElementRef>;
+
+  x: unknown[] = [{}];
+
   get tabs(): TabComponent[] {
     return this.tabList.toArray();
   }
 
-  constructor() {
+  constructor(private cfr: ComponentFactoryResolver) {
   }
+
+
 
   ngOnInit(): void {
   }
@@ -26,6 +37,17 @@ export class TabbedPaneComponent implements OnInit, AfterContentInit {
       this.tabs.forEach(t => t.visible = false);
       this.tabs[0].visible = true;
     }
+
+    // this.elementRefs.forEach(e => e.nativeElement.style.color = 'blue');
+    // setTimeout(() => {
+
+    //   this.viewContainerRefs.forEach(vc => {
+    //     vc.createComponent(this.cfr.resolveComponentFactory(DummyComponent));
+    //   });
+
+    // }, 2000);
+
+
   }
 
   register(tab: TabComponent): void {

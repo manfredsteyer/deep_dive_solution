@@ -6,3 +6,22 @@
 <p>
     ShowDetail: {{id}}
 </p>
+
+***
+<div *ngTemplateOutlet="tmpl"></div>
+<div *ngComponentOutlet="dummy"></div>
+
+***
+
+
+
+<div>
+    <input [appTipTool]="tmpl">
+</div>
+
+
+<ng-template #tmpl>
+    <div>
+        <b>Hinweis: </b> Wichtiges Feld!
+    </div>
+</ng-template>

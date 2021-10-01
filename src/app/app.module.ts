@@ -13,6 +13,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 import { SharedModule } from './shared/shared.module';
+import { DummyComponent } from './dummy/dummy.component';
 
 @NgModule({
    imports: [
@@ -29,6 +30,7 @@ import { SharedModule } from './shared/shared.module';
       HomeComponent,
       AboutComponent,
       NotFoundComponent,
+      DummyComponent,
    ],
    providers: [],
    bootstrap: [

@@ -2,6 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DummyComponent } from 'src/app/dummy/dummy.component';
 
 @Component({
   selector: 'app-flight-edit',
@@ -9,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./flight-edit.component.scss']
 })
 export class FlightEditComponent implements OnInit {
+
+  dummy = DummyComponent;
 
   id = 0;
   showDetails = false;
