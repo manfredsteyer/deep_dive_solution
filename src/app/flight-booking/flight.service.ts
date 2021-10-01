@@ -1,11 +1,21 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { BASE_URL } from '../app.tokens';
 import { Flight } from './flight';
 import { FlightBookingApiModule } from './flight-booking-api.module';
 
 @Injectable()
 export class DummyFlightService implements FlightService {
+
+  findById(id: number): Observable<Flight> {
+    return of({
+      id: 1,
+      from: 'Graz',
+      to: 'Flagranti',
+      date: '2023-12-24T17:00+01:00'
+    });
+  }
 
   find(from: string, to: string): Observable<Flight[]> {
     return of([
@@ -15,19 +25,20 @@ export class DummyFlightService implements FlightService {
       { id: 4, from: 'Graz', to: 'Weihnachtsinsel', date: '2023-12-24T17:45+01:00' },
     ]);
   }
-
 }
 
 @Injectable()
 export class DefaultFlightService implements FlightService {
 
   constructor(
-    private http: HttpClient) {
-    }
+    private http: HttpClient,
+    @Inject(BASE_URL) private baseUrl: string,
+    ) {
+  }
 
   find(from: string, to: string): Observable<Flight[]> {
 
-    const url = 'http://www.angular.at/api/flight';
+    const url = this.baseUrl + '/flight';
 
     const headers = new HttpHeaders()
       .set('Accept', 'application/json');
@@ -37,6 +48,17 @@ export class DefaultFlightService implements FlightService {
       .set('to', to);
 
     return this.http.get<Flight[]>(url, {headers, params});
+  }
+
+  findById(id: number): Observable<Flight> {
+    const url = 'http://www.angular.at/api/flight';
+
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json');
+
+    const params = new HttpParams().set('id', id);
+
+    return this.http.get<Flight>(url, {headers, params});
   }
 }
 
@@ -53,8 +75,9 @@ const DEBUG = false;
   //     return new DefaultFlightService(http);
   //   }
   // },
-  deps: [HttpClient]
+  // deps: [HttpClient]
 })
 export abstract class FlightService {
   abstract find(from: string, to: string): Observable<Flight[]>;
+  abstract findById(id: number): Observable<Flight>;
 }

@@ -1,5 +1,20 @@
 <h1>Flight Edit</h1>
 
+
+<div style="position:relative; z-index: 100" *ngIf="showWarning" class="alert alert-warning">
+    <div>
+        Do you really want to leave?
+    </div>
+    <p>&nbsp;</p>
+    <div>
+        <a href="javascript:void(0)" (click)="decide(true)" class="btn btn-danger">Yes</a>
+        <a href="javascript:void(0)" (click)="decide(false)" class="btn btn-default">No</a>
+    </div>
+</div>
+
+
+<pre>{{ flight | json}}</pre>
+
 <p>
     Id: {{id}}
 </p>

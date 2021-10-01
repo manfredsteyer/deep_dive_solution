@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../shared/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,9 +15,21 @@ export class HomeComponent implements OnInit {
     { id: 4, from: 'Graz', to: 'Ibiza', date: '2022-12-24T18:30+01:00'},
   ];
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  get userName() {
+    return this.authService.userName;
+  }
+
+  login(): void {
+    this.authService.login('Max', '123456');
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

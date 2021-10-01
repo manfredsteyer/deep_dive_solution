@@ -1,5 +1,8 @@
 <!-- src/app/home/home.component.html -->
-<h1>Welcome!</h1>
+<h1>Welcome {{userName}} !</h1>
+
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
 
 <app-tabbed-pane>
     <app-tab title="Tab A">

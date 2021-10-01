@@ -1,6 +1,6 @@
 // src/app/shared/shared.module.ts
 
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DateComponent } from './date/date.component';
 import { CityPipe } from './city.pipe';
@@ -16,6 +16,7 @@ import { TabNavigatorComponent } from './controls/tab-navigator/tab-navigator.co
 import { TipToolDirective } from './tip-tool.directive';
 import { TableFieldDirective } from './controls/table-field.directive';
 import { DataTableComponent } from './controls/data-table/data-table.component';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   imports: [
@@ -41,6 +42,9 @@ import { DataTableComponent } from './controls/data-table/data-table.component';
       DataTableComponent,
 
   ],
+  providers: [
+    // AuthService  // move to forRoot
+  ],
   exports: [
     DateComponent,
     CityPipe,
@@ -60,4 +64,13 @@ import { DataTableComponent } from './controls/data-table/data-table.component';
 
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+
+  static forRoot(): ModuleWithProviders<SharedModule> {
+    return {
+      ngModule: SharedModule,
+      providers: [AuthService]
+    };
+  }
+
+}

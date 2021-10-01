@@ -8,9 +8,9 @@ import { DummyFlightService, FlightService } from '../flight.service';
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.scss'],
-  providers: [
-    { provide: FlightService, useClass: DummyFlightService}
-  ]
+  // providers: [
+  //   { provide: FlightService, useClass: DummyFlightService}
+  // ]
 })
 export class FlightSearchComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class FlightSearchComponent implements OnInit {
     5: true
   };
 
-  constructor(@Inject(FLIGHT_SERVICES) private flightServices: FlightService[]) {
+  constructor(private flightService: FlightService) {
   }
 
   ngOnInit(): void {
@@ -33,12 +33,8 @@ export class FlightSearchComponent implements OnInit {
 
   search(): void {
 
-    combineLatest(
-      this.flightServices.map(fs => fs.find(this.from, this.to))
-    ).subscribe({
-      next: (flightsResults) => {
-
-        const flights = flightsResults.flat();
+    this.flightService.find(this.from, this.to).subscribe({
+      next: (flights) => {
         console.debug('flights', flights);
         this.flights = flights;
       },
