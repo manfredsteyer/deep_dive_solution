@@ -4,9 +4,12 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Flight } from '../flight';
+import { FlightBookingApiModule } from '../flight-booking-api.module';
 import { FlightService } from '../flight.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: FlightBookingApiModule
+})
 export class FlightResolver implements Resolve<Flight> {
 
     constructor(private flightService: FlightService) {
